@@ -1,4 +1,4 @@
-package ru.pristalovpavel.personal.friendlyjenkins
+package ru.pristalovpavel.personal.friendlyjenkins.ui
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import ru.pristalovpavel.personal.friendlyjenkins.R
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
