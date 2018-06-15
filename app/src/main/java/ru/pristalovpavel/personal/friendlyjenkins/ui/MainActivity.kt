@@ -1,5 +1,6 @@
 package ru.pristalovpavel.personal.friendlyjenkins.ui
 
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.design.widget.Snackbar
@@ -17,8 +18,11 @@ import retrofit2.Response
 import ru.pristalovpavel.personal.friendlyjenkins.R
 import ru.pristalovpavel.personal.friendlyjenkins.model.ViewResponse
 import ru.pristalovpavel.personal.friendlyjenkins.repository.web.JenkinsService
+import ru.pristalovpavel.personal.friendlyjenkins.ui.fragment.LoginFragment
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, LoginFragment.OnFragmentInteractionListener {
+    override fun onFragmentInteraction(uri: Uri) {
+    }
 
     private val jenkinsService by lazy { JenkinsService.instance }
 
@@ -77,7 +81,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_camera -> {
-                // Handle the camera action
+                supportFragmentManager.beginTransaction().replace(R.id.container, LoginFragment.newInstance()).commit()
             }
             R.id.nav_gallery -> {
 
