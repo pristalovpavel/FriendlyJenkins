@@ -13,4 +13,7 @@
     <string name="store_password">Store the password</string>
     <string name="login">Login</string>
     <string name="password">Password</string>
+    <string name="error_invalid_password">Invalid password</string>
+    <string name="error_login_required">Please, specify login</string>
+    <string name="error_server_required">Please, specify server</string>
 </resources>
