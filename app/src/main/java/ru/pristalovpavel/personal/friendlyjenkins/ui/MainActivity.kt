@@ -1,5 +1,6 @@
 package ru.pristalovpavel.personal.friendlyjenkins.ui
 
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -9,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.securepreferences.SecurePreferences
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -19,9 +21,18 @@ import ru.pristalovpavel.personal.friendlyjenkins.R
 import ru.pristalovpavel.personal.friendlyjenkins.model.ViewResponse
 import ru.pristalovpavel.personal.friendlyjenkins.repository.web.JenkinsService
 import ru.pristalovpavel.personal.friendlyjenkins.ui.fragment.LoginFragment
+import ru.pristalovpavel.personal.friendlyjenkins.ui.fragment.MainPageFragment
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, LoginFragment.OnFragmentInteractionListener {
-    override fun onFragmentInteraction(uri: Uri) {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, LoginFragment.OnLoginInteractionListener {
+
+    override fun onLoginInteraction() {
+        val prefs = SecurePreferences(this)
+        val login = prefs.getString(LoginFragment.LOGIN, "")
+        val password = prefs.getString(LoginFragment.PASSWORD, "")
+
+        if(!login.isBlank() && !password.isBlank()) {
+            supportFragmentManager.beginTransaction().replace(R.id.container, MainPageFragment.newInstance()).commit()
+        }
     }
 
     private val jenkinsService by lazy { JenkinsService.instance }
@@ -35,7 +46,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             jenkinsService.viewList("RZD").enqueue(object : Callback<ViewResponse> {
                 override fun onResponse(call: Call<ViewResponse>?, response: Response<ViewResponse>?) {
                     Snackbar.make(view, "Deal with it!", Snackbar.LENGTH_LONG).setAction("Action", null).show()
-                    hello.text = response?.body().toString()
                 }
 
                 override fun onFailure(call: Call<ViewResponse>?, t: Throwable?) {

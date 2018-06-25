@@ -1,7 +1,6 @@
 package ru.pristalovpavel.personal.friendlyjenkins.ui.fragment
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
@@ -14,7 +13,8 @@ import kotlinx.android.synthetic.main.fragment_login.*
 import ru.pristalovpavel.personal.friendlyjenkins.R
 
 class LoginFragment : Fragment() {
-    private var listener: OnFragmentInteractionListener? = null
+
+    private var listener: OnLoginInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,9 +70,10 @@ class LoginFragment : Fragment() {
         else {
             if(!isAdded) return
             val prefs = SecurePreferences(activity)
-            prefs.edit().putString("LOGIN", loginString)
-                    .putString("PASSWORD", passwordString)
+            prefs.edit().putString(LOGIN, loginString)
+                    .putString(PASSWORD, passwordString)
                     .commit()
+            listener?.onLoginInteraction()
         }
     }
 
@@ -80,13 +81,9 @@ class LoginFragment : Fragment() {
         return password.length > 4
     }
 
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
+        if (context is OnLoginInteractionListener) {
             listener = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
@@ -98,11 +95,13 @@ class LoginFragment : Fragment() {
         listener = null
     }
 
-    interface OnFragmentInteractionListener {
-        fun onFragmentInteraction(uri: Uri)
+    interface OnLoginInteractionListener {
+        fun onLoginInteraction()
     }
 
     companion object {
+        val LOGIN = "LOGIN"
+        val PASSWORD = "PASSWORD"
         @JvmStatic
         fun newInstance() =
                 LoginFragment().apply {

@@ -8,6 +8,7 @@ import ru.pristalovpavel.personal.friendlyjenkins.model.JobListElement
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.pristalovpavel.personal.friendlyjenkins.model.MainPageResponse
 import ru.pristalovpavel.personal.friendlyjenkins.model.ViewResponse
 
 
@@ -17,6 +18,9 @@ interface JenkinsService {
 
     @GET("view/{view}/job/{job}")
     fun jobList(@Path("view") view: String, @Path("job") job: String): Call<JobListElement>
+
+    @GET("")
+    fun mainPage(): Call<MainPageResponse>
 
     companion object {
 
